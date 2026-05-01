@@ -1,3 +1,4 @@
+cart = JSON.parse(localStorage.getItem("cart")) || [];
 function renderProducts() {
   let Productshtml = "";
   products.forEach((product) => {
@@ -75,5 +76,11 @@ add_buttons.forEach((button) => {
     }
 
     console.log(cart);
+    cartQuantity = 0;
+    cart.forEach((item) => {
+      cartQuantity += item.quantity;
+    });
+    document.querySelector(".cart-quantity").innerText = cartQuantity;
+    localStorage.setItem("cart", JSON.stringify(cart));
   });
 });

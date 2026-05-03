@@ -1,6 +1,6 @@
-import { cart, calculateCartQuantity } from "../data/cart.js";
+import * as cart from "../data/cart.js";
 import { products } from "../data/products.js";
-let cartQuantity = calculateCartQuantity();
+let cartQuantity = cart.calculateCartQuantity();
 document.querySelector(".cart-quantity").innerText = cartQuantity;
 function renderProducts() {
   let Productshtml = "";
@@ -73,26 +73,8 @@ add_buttons.forEach((button) => {
     const quantitySelect = button.parentElement.querySelector("select");
     const quantity = parseInt(quantitySelect.value);
     const productId = button.dataset.productId;
-
-    let matchingItem;
-
-    cart.forEach((item) => {
-      if (item.id === productId) {
-        matchingItem = item;
-      }
-    });
-
-    if (matchingItem) {
-      matchingItem.quantity += quantity;
-    } else {
-      cart.push({
-        id: productId,
-        quantity: quantity,
-      });
-    }
-    console.log(cart);
-    cartQuantity = calculateCartQuantity();
-    document.querySelector(".cart-quantity").innerText = cartQuantity;
-    localStorage.setItem("cart", JSON.stringify(cart));
+    cart.addToCart(productId, quantity);
+    cart.UpdateCartQuantityDisplay();
+    localStorage.setItem("cart", JSON.stringify(cart.cart));
   });
 });

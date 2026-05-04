@@ -39,4 +39,8 @@ export function removeFromCart(productId) {
     }
   });
   cart = newCart;
+  saveToLocalStorage();
+}
+export function saveToLocalStorage() {
+  localStorage.setItem("cart", JSON.stringify(cart));
 }

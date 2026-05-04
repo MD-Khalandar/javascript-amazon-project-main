@@ -76,6 +76,6 @@ add_buttons.forEach((button) => {
     const productId = button.dataset.productId;
     cart.addToCart(productId, quantity);
     cart.UpdateCartQuantityDisplay();
-    localStorage.setItem("cart", JSON.stringify(cart.cart));
+    cart.saveToLocalStorage();
   });
 });

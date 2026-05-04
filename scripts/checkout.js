@@ -1,4 +1,4 @@
-import { cart, removeFromCart } from "../data/cart.js";
+import { cart, removeFromCart, saveToLocalStorage } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "../utils/money.js";
 
@@ -84,7 +84,6 @@ document.querySelectorAll(".js-delete-link").forEach((deleteLink) => {
   deleteLink.addEventListener("click", () => {
     const productId = deleteLink.dataset.productId;
     removeFromCart(productId);
-    localStorage.setItem("cart", JSON.stringify(cart));
     const container = document.querySelector(
       `.js-cart-item-container-${productId}`,
     );

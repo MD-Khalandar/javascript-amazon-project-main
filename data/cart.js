@@ -31,3 +31,12 @@ export function UpdateCartQuantityDisplay() {
   let cartQuantity = calculateCartQuantity();
   document.querySelector(".cart-quantity").innerText = cartQuantity;
 }
+export function removeFromCart(productId) {
+  let newCart = [];
+  cart.forEach((item) => {
+    if (item.id !== productId) {
+      newCart.push(item);
+    }
+  });
+  cart = newCart;
+}

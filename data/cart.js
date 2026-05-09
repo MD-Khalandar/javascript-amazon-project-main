@@ -23,6 +23,7 @@ export function addToCart(productId, quantity) {
     cart.push({
       id: productId,
       quantity: quantity,
+      deliveryOptionId: 1,
     });
   }
   console.log(cart);

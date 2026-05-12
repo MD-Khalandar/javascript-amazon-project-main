@@ -8,6 +8,7 @@ import { products } from "../../data/products.js";
 import { formatCurrency } from "../../utils/money.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 import { deliveryOptions } from "../../data/deliveryOptions.js";
+import { renderPaymentSummary } from "./paymentSummery.js";
 export function renderCheckout() {
   let checkoutHtml = "";
   let dateString = "";
@@ -40,7 +41,7 @@ export function renderCheckout() {
                     <div class="product-price">$${formatCurrency(product.priceCents)}</div>
                     <div class="product-quantity">
                       <span> Quantity: <span class="quantity-label">${cartItem.quantity}</span> </span>
-                      <span class="update-quantity-link link-primary">
+                      <span class="update-quantity-link link-primary js-update-quantity-link" data-product-id="${product.id}">
                         Update
                       </span>
                       <span class="delete-quantity-link link-primary 
@@ -63,6 +64,55 @@ export function renderCheckout() {
     });
   });
   document.querySelector(".js-order-summary").innerHTML = checkoutHtml;
+
+  document
+    .querySelectorAll(".js-update-quantity-link")
+    .forEach((updateLink) => {
+      updateLink.addEventListener("click", () => {
+        const productId = updateLink.dataset.productId;
+        const container = document.querySelector(
+          `.js-cart-item-container-${productId}`,
+        );
+        container.innerHTML = `
+        <div class="delivery-date">Delivery date: ${dateString}</div>
+        <div class="cart-item-details-grid">
+          <img class="product-image" src="${products.find((p) => p.id === productId).image}" />
+          <div class="cart-item-details">
+            <div class="product-name">${products.find((p) => p.id === productId).name}</div>
+            <div class="product-price">$${formatCurrency(products.find((p) => p.id === productId).priceCents)}</div>
+            <div class="product-quantity">
+              <span>Quantity:</span>
+              <input class="quantity-input js-quantity-input" type="number" value="${cart.find((item) => item.id === productId).quantity}" data-product-id="${productId}" min="1" />
+              <span class="save-quantity-link link-primary js-save-quantity-link" data-product-id="${productId}">Save</span>
+              <span class="cancel-quantity-link link-primary js-cancel-quantity-link" data-product-id="${productId}">Cancel</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+        document
+          .querySelector(".js-save-quantity-link")
+          .addEventListener("click", () => {
+            const newQuantity = parseInt(
+              document.querySelector(".js-quantity-input").value,
+            );
+            const cartItem = cart.find((item) => item.id === productId);
+            if (newQuantity > 0) {
+              cartItem.quantity = newQuantity;
+              saveToLocalStorage();
+              renderCheckout();
+              renderPaymentSummary();
+            }
+          });
+
+        document
+          .querySelector(".js-cancel-quantity-link")
+          .addEventListener("click", () => {
+            renderCheckout();
+          });
+      });
+    });
+
   document.querySelectorAll(".js-delete-link").forEach((deleteLink) => {
     deleteLink.addEventListener("click", () => {
       const productId = deleteLink.dataset.productId;
@@ -71,6 +121,7 @@ export function renderCheckout() {
         `.js-cart-item-container-${productId}`,
       );
       container.remove();
+      renderPaymentSummary();
     });
   });
 
@@ -106,6 +157,7 @@ export function renderCheckout() {
       const deliveryOptionId = optionElement.dataset.deliveryOptionId;
       updateCartItemDeliveryOption(productId, parseInt(deliveryOptionId));
       renderCheckout();
+      renderPaymentSummary();
     });
   });
 }

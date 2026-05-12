@@ -9,6 +9,7 @@ import { formatCurrency } from "../../utils/money.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 import { deliveryOptions } from "../../data/deliveryOptions.js";
 import { renderPaymentSummary } from "./paymentSummery.js";
+import { renderCheckoutHeader } from "./checkoutHeader.js";
 export function renderCheckout() {
   let checkoutHtml = "";
   let dateString = "";
@@ -122,6 +123,7 @@ export function renderCheckout() {
       );
       container.remove();
       renderPaymentSummary();
+      renderCheckoutHeader();
     });
   });
 

@@ -26,7 +26,6 @@ export function addToCart(productId, quantity) {
       deliveryOptionId: 1,
     });
   }
-  console.log(cart);
 }
 export function UpdateCartQuantityDisplay() {
   let cartQuantity = calculateCartQuantity();

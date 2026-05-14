@@ -17,7 +17,6 @@ function renderProducts() {
           <div class="product-name limit-text-to-2-lines">
             ${product.name}
           </div>
-
           <div class="product-rating-container">
             <img
               class="product-rating-stars"
@@ -25,7 +24,6 @@ function renderProducts() {
             />
             <div class="product-rating-count link-primary">${product.rating.count}</div>
           </div>
-
           <div class="product-price">$${formatCurrency(product.priceCents)}</div>
 
           <div class="product-quantity-container">

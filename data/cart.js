@@ -1,4 +1,5 @@
-export let cart = JSON.parse(localStorage.getItem("cart")) || [];
+export let cart;
+loadFromLocalStorage();
 export function calculateCartQuantity() {
   let cartQuantity = 0;
 
@@ -8,7 +9,7 @@ export function calculateCartQuantity() {
 
   return cartQuantity;
 }
-export function addToCart(productId, quantity) {
+export function addToCart(productId, quantity = 1) {
   let matchingItem;
 
   cart.forEach((item) => {
@@ -26,6 +27,7 @@ export function addToCart(productId, quantity) {
       deliveryOptionId: 1,
     });
   }
+  saveToLocalStorage();
 }
 export function UpdateCartQuantityDisplay() {
   let cartQuantity = calculateCartQuantity();
@@ -54,4 +56,7 @@ export function updateCartItemDeliveryOption(productId, deliveryOptionId) {
   });
   matchingItem.deliveryOptionId = deliveryOptionId;
   saveToLocalStorage();
+}
+export function loadFromLocalStorage() {
+  cart = JSON.parse(localStorage.getItem("cart")) || [];
 }

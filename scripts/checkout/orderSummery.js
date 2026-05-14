@@ -26,7 +26,7 @@ export function renderCheckout() {
     products.forEach((product) => {
       if (product.id === productId) {
         checkoutHtml += `
-                <div class="cart-item-container js-cart-item-container-${product.id}">
+                <div class="cart-item-container js-cart-item-container-${product.id} js-cart-item-container" >
                 <div class="delivery-date">Delivery date: ${dateString}</div>
 
                 <div class="cart-item-details-grid">
@@ -40,13 +40,13 @@ export function renderCheckout() {
                     ${product.name}
                     </div>
                     <div class="product-price">$${formatCurrency(product.priceCents)}</div>
-                    <div class="product-quantity">
+                    <div class="product-quantity js-product-quantity-${product.id}">
                       <span> Quantity: <span class="quantity-label">${cartItem.quantity}</span> </span>
                       <span class="update-quantity-link link-primary js-update-quantity-link" data-product-id="${product.id}">
                         Update
                       </span>
                       <span class="delete-quantity-link link-primary 
-                      js-delete-link" data-product-id="${product.id}">
+                      js-delete-link js-delete-link-${product.id}" data-product-id="${product.id}">
                         Delete
                       </span>
                     </div>
@@ -163,4 +163,3 @@ export function renderCheckout() {
     });
   });
 }
-renderCheckout();

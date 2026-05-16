@@ -1,7 +1,14 @@
 import { renderCheckout as renderOrderSummary } from "../../scripts/checkout/orderSummery.js";
 import { loadFromLocalStorage, cart } from "../../data/cart.js";
+import { loadProducts } from "../../data/products.js";
+
 describe("test suite:renderOrderSummery", () => {
   let proid = "e43638ce-6aa0-4b85-b27f-e1d07eb678c6";
+  beforeAll((done) => {
+    loadProducts(() => {
+      done();
+    });
+  });
   beforeEach(() => {
     document.querySelector(".js-test-container").innerHTML = `
         <div class="js-order-summary"></div>

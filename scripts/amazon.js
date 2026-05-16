@@ -1,7 +1,21 @@
 import * as cart from "../data/cart.js";
 import { products, loadProducts } from "../data/products.js";
 import { formatCurrency } from "../utils/money.js";
-loadProducts(renderProductsGrid);
+
+Promise.all([
+  new Promise((resolve) => {
+    loadProducts(() => {
+      resolve();
+    });
+  }),
+  new Promise((resolve) => {
+    cart.loadCart(() => {
+      resolve();
+    });
+  }),
+]).then(() => {
+  renderProductsGrid();
+});
 
 let cartQuantity = cart.calculateCartQuantity();
 document.querySelector(".cart-quantity").innerText = cartQuantity;

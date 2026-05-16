@@ -60,3 +60,12 @@ export function updateCartItemDeliveryOption(productId, deliveryOptionId) {
 export function loadFromLocalStorage() {
   cart = JSON.parse(localStorage.getItem("cart")) || [];
 }
+export function loadCart(fun) {
+  const xhr = new XMLHttpRequest();
+  xhr.addEventListener("load", () => {
+    console.log("loaded Cart");
+    fun();
+  });
+  xhr.open("GET", "http://supersimplebackend.dev/cart");
+  xhr.send();
+}

@@ -1,9 +1,12 @@
 import * as cart from "../data/cart.js";
-import { products } from "../data/products.js";
+import { products, loadProducts } from "../data/products.js";
 import { formatCurrency } from "../utils/money.js";
+loadProducts(renderProductsGrid);
+
 let cartQuantity = cart.calculateCartQuantity();
 document.querySelector(".cart-quantity").innerText = cartQuantity;
-function renderProducts() {
+
+function renderProductsGrid() {
   let Productshtml = "";
   products.forEach((product) => {
     Productshtml += ` <div class="product-container">
@@ -53,28 +56,28 @@ function renderProducts() {
         </div>`;
   });
   document.querySelector(".products-grid").innerHTML = Productshtml;
-}
-renderProducts();
-let add_buttons = document.querySelectorAll(".js-add-to-cart");
-let temp = 0;
-let addedMessageTimeouts = {};
-add_buttons.forEach((button) => {
-  button.addEventListener("click", () => {
-    document.querySelector(
-      `.js-added-to-cart-${button.dataset.productId}`,
-    ).style.opacity = "1";
-    clearTimeout(addedMessageTimeouts[button.dataset.productId]);
-    const timeoutId = setTimeout(() => {
+
+  let add_buttons = document.querySelectorAll(".js-add-to-cart");
+  let temp = 0;
+  let addedMessageTimeouts = {};
+  add_buttons.forEach((button) => {
+    button.addEventListener("click", () => {
       document.querySelector(
         `.js-added-to-cart-${button.dataset.productId}`,
-      ).style.opacity = "0";
-    }, 2000);
-    addedMessageTimeouts[button.dataset.productId] = timeoutId;
-    const quantitySelect = button.parentElement.querySelector("select");
-    const quantity = parseInt(quantitySelect.value);
-    const productId = button.dataset.productId;
-    cart.addToCart(productId, quantity);
-    cart.UpdateCartQuantityDisplay();
-    cart.saveToLocalStorage();
+      ).style.opacity = "1";
+      clearTimeout(addedMessageTimeouts[button.dataset.productId]);
+      const timeoutId = setTimeout(() => {
+        document.querySelector(
+          `.js-added-to-cart-${button.dataset.productId}`,
+        ).style.opacity = "0";
+      }, 2000);
+      addedMessageTimeouts[button.dataset.productId] = timeoutId;
+      const quantitySelect = button.parentElement.querySelector("select");
+      const quantity = parseInt(quantitySelect.value);
+      const productId = button.dataset.productId;
+      cart.addToCart(productId, quantity);
+      cart.UpdateCartQuantityDisplay();
+      cart.saveToLocalStorage();
+    });
   });
-});
+}

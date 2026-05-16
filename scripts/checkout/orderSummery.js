@@ -39,7 +39,7 @@ export function renderCheckout() {
                     <div class="product-name">
                     ${product.name}
                     </div>
-                    <div class="product-price">$${formatCurrency(product.priceCents)}</div>
+                    <div class="product-price">${product.getPrice()}</div>
                     <div class="product-quantity js-product-quantity-${product.id}">
                       <span> Quantity: <span class="quantity-label">${cartItem.quantity}</span> </span>
                       <span class="update-quantity-link link-primary js-update-quantity-link" data-product-id="${product.id}">
